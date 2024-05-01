@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ael-bouz <ael-bouz@student.42.fr>          +#+  +:+       +#+         #
+#    By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/15 11:32:24 by ael-bouz          #+#    #+#              #
-#    Updated: 2024/04/19 15:52:53 by ael-bouz         ###   ########.fr        #
+#    Updated: 2024/04/26 19:46:51 by aelbouz          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ NAME				= 	fdf
 CC					= 	cc
 CFLAGS				= 	-Wall -Wextra -Werror
 MLX					=	-I /usr/local/include -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit
+MLX_LINUX			=	-Lminilibx_linux -lmlx -lmlx_Linux -lXext -lX11
 RM					= 	rm -f
 
 all:	$(NAME)
@@ -32,7 +33,7 @@ test:
 	echo $(TITLE)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(MLX) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(MLX_LINUX) -o $(NAME)
 	@make clean
 
 .c.o:

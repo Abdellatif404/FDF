@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bouz <ael-bouz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:44:38 by ael-bouz          #+#    #+#             */
-/*   Updated: 2023/12/21 15:11:27 by ael-bouz         ###   ########.fr       */
+/*   Updated: 2024/04/26 10:52:36 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,9 @@ static char	*read_line(int fd, char *line)
 {
 	char		*buffer;
 	ssize_t		rd;
-	ssize_t		i;
 
 	buffer = malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char));
 	rd = 1;
-	i = 0;
 	if (!buffer)
 		return (NULL);
 	while (rd != 0 && !(has_newline(line)))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_drawing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bouz <ael-bouz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 15:30:08 by ael-bouz          #+#    #+#             */
-/*   Updated: 2024/04/19 21:01:35 by ael-bouz         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:11:26 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	initialize_scale(t_mlx *data)
 {
-	int	n;
+	// int	n;
 
-	n = max(data->shape_height, data->shape_width);
+	// n = max(data->shape_height, data->shape_width);
 	// if (n < 10)
 	// 	return (50);
 	// else if (n < 100)
@@ -26,7 +26,7 @@ int	initialize_scale(t_mlx *data)
 	return (data->steps);
 }
 
-static void	clear_image(t_img *img)
+static void	clear_image(t_image *img)
 {
 	int	*image;
 	int	i;
@@ -40,7 +40,7 @@ static void	clear_image(t_img *img)
 	}
 }
 
-void	img_pixel_put(t_img *img, int x, int y, int color)
+void	img_pixel_put(t_image *img, int x, int y, int color)
 {
 	char	*pixel;
 
@@ -51,22 +51,33 @@ void	img_pixel_put(t_img *img, int x, int y, int color)
 	}
 }
 
-static void	connect_points(t_img *img, t_line_params *params, t_matrix *column)
+static int	line_is_out_of_win(t_matrix *p1, t_matrix *p2)
+{
+	if ((p1->x < 0 && p2->x < 0) || (p1->y < 0 && p2->y < 0))
+		return (1);
+	else if ((p1->x > WIN_WIDTH && p2->x > WIN_WIDTH) || (p1->y > WIN_HEIGHT && p2->y > WIN_HEIGHT))
+		return (1);
+	return (0);
+}
+
+static void	connect_points(t_image *img, t_line_params *params, t_matrix *column)
 {
 	if (column->right)
 	{
-		column->right->x = column->x + params->scale;
-		column->right->y = column->y;
-		if ((column->right->x >= 0 && column->x <= WIN_WIDTH) \
-		&& (column->right->y >= 0 && column->y <= WIN_HEIGHT))
+
+		if (column->right->y_idx == 0)
+		{
+			column->right->x = column->x + (params->scale - params->scale / 4);
+			column->right->y = (column->y + column->z) + (params->scale / 2 - column->right->z);
+		}
+		if (!line_is_out_of_win(column, column->right))
 			bresenham(img, column, column->right, params);
 	}
 	if (column->down)
 	{
-		column->down->x = column->x;
-		column->down->y = column->y + params->scale;
-		if ((column->down->x >= 0 && column->x <= WIN_WIDTH) \
-		&& (column->down->y >= 0 && column->y <= WIN_HEIGHT))
+		column->down->x = column->x - params->scale;
+		column->down->y = (column->y + column->z) + (params->scale / 2 + params->scale / 4) - column->down->z;
+		if (!line_is_out_of_win(column, column->down))
 			bresenham(img, column, column->down, params);
 	}
 }

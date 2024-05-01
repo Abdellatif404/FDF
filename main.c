@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bouz <ael-bouz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:21:20 by ael-bouz          #+#    #+#             */
-/*   Updated: 2024/04/19 21:10:30 by ael-bouz         ###   ########.fr       */
+/*   Updated: 2024/05/01 11:26:51 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,31 +60,36 @@ void	print_matrix(t_matrix **head)
 
 int	move_map(int keycode, t_mlx *data)
 {
-	if (keycode == 126)
+	// if (keycode == 126)
+	if (keycode == 65362)
 	{
 		printf("UP arrow key pressed\n");
 		(**(data->head)).y -= 10;
 		draw_map(data, data->head);
 	}
-	else if (keycode == 125)
+	// else if (keycode == 125)
+	else if (keycode == 65364)
 	{
 		printf("DOWN arrow key pressed\n");
 		(**(data->head)).y += 10;
 		draw_map(data, data->head);
 	}
-	else if (keycode == 123)
+	// else if (keycode == 123)
+	else if (keycode == 65361)
 	{
 		printf("LEFT arrow key pressed\n");
 		(**(data->head)).x -= 10;
 		draw_map(data, data->head);
 	}
-	else if (keycode == 124)
+	// else if (keycode == 124)
+	else if (keycode == 65363)
 	{
 		printf("RIGHT arrow key pressed\n");
 		(**(data->head)).x += 10;
 		draw_map(data, data->head);
 	}
-	else if (keycode == 53)
+	// else if (keycode == 53)
+	else if (keycode == 65307)
 	{
 		// mlx_destroy_image(test->ml.mlx_ptr, &test->ml.img.addr);
 		mlx_clear_window(data->mlx_ptr, data->win_ptr);
@@ -96,10 +101,10 @@ int	move_map(int keycode, t_mlx *data)
 	return (0);
 }
 
-static int	centering(int dimension, int file_dim, int scale)
-{
-	return ((dimension / 2) - ((file_dim - 1) * scale / 2));
-}
+// static int	centering(int dimension, int file_dim, int scale)
+// {
+// 	return ((dimension / 2) - ((file_dim - 1) * scale / 2));
+// }
 
 int	zoom(int keycode, int x, int y, t_mlx *data)
 {
@@ -107,16 +112,18 @@ int	zoom(int keycode, int x, int y, t_mlx *data)
 	if (keycode == 5)
 	{
 		data->steps += 1;
-		(*(data->head))->x = centering(WIN_WIDTH, data->shape_width, data->steps);
-		(*(data->head))->y = centering(WIN_HEIGHT, data->shape_height, data->steps);
+		// printf("steps %d\n", data->steps);
+		// (*(data->head))->x = centering(WIN_WIDTH, data->shape_width, data->steps);
+		// (*(data->head))->y = centering(WIN_HEIGHT, data->shape_height, data->steps);
 		draw_map(data, data->head);
 	}
 	else if (keycode == 4)
 	{
 		if (data->steps > 1)
 			data->steps -= 1;
-		(*(data->head))->x = centering(WIN_WIDTH, data->shape_width, data->steps);
-		(*(data->head))->y = centering(WIN_HEIGHT, data->shape_height, data->steps);
+		// printf("steps %d\n", data->steps);
+		// (*(data->head))->x = centering(WIN_WIDTH, data->shape_width, data->steps);
+		// (*(data->head))->y = centering(WIN_HEIGHT, data->shape_height, data->steps);
 		draw_map(data, data->head);
 	}
 	// else if (keycode == 3)
@@ -125,8 +132,8 @@ int	zoom(int keycode, int x, int y, t_mlx *data)
 	// 	(*(data->head))->y = centering(WIN_HEIGHT, data->shape_height, data->steps);
 	// 	draw_map(data, data->head);
 	// }
-	// else
-	// 	printf("Unknown key pressed %d\n", keycode);
+	else
+		printf("Unknown key pressed %d\n", keycode);
 	return (0);
 }
 
@@ -142,6 +149,19 @@ void	init_mlx_data(t_mlx *mlx, t_matrix **head)
 	mlx->img.addr = mlx_get_data_addr(mlx->img.mlx_img, &mlx->img.bpp, \
 	&mlx->img.size_line, &mlx->img.endian);
 	mlx->head = head;
+}
+
+int mouseMove(int keycode, int x, int y, t_mlx *param)
+{
+	printf("Im nere\n");
+	printf("- %d  %d %d\n", keycode, x, y); 
+	printf("- %p\n", param); 
+	int	a, b;
+	a = 0;
+	b = 0;
+	mlx_mouse_get_pos(param->mlx_ptr, param->win_ptr, &a, &b);
+    printf("Mouse position: (%d, %d)\n", a, b);
+    return 0;
 }
 
 int	main(int ac, char **av)
@@ -175,6 +195,8 @@ int	main(int ac, char **av)
 	// BELOW IS A TEST TO MOVE THE MAP
 	mlx_key_hook(mlx.win_ptr, move_map, &mlx);
 	mlx_mouse_hook(mlx.win_ptr, zoom, &mlx);
+	// mlx_mouse_hook(mlx.win_ptr, mouseMove, NULL);
+	// mlx_hook(mlx.win_ptr, 4, 0, mouseMove, &mlx);
 	mlx_loop(mlx.mlx_ptr);
 	mlx_destroy_image(mlx.mlx_ptr, mlx.img.mlx_img);
 	return (0);

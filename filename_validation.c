@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   filename_validation.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bouz <ael-bouz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:20:21 by ael-bouz          #+#    #+#             */
-/*   Updated: 2024/04/19 15:21:28 by ael-bouz         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:44:19 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	ft_putchar(char c)
+{
+	if (write(2, &c, 1) == -1)
+		exit(FAILURE);
+}
+
+void	ft_putstr(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		ft_putchar(s[i]);
+		i++;
+	}
+}
 
 static int	verify_extension(char *filename)
 {
@@ -34,16 +52,16 @@ void	verify_filename(int ac, char **av)
 	{
 		if (verify_extension(av[1]) == FAILURE)
 		{
-			write(STDERR_FILENO, "ERROR: Wrong extension <filename>.fdf\n", 39);
+			ft_putstr("ERROR: Wrong extension <filename>.fdf\n");
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
 		if (ac == 1)
-			write(STDERR_FILENO, "ERROR: You need to specify a filename\n", 39);
+			ft_putstr("ERROR: You need to specify a filename\n");
 		else if (ac > 2)
-			write(STDERR_FILENO, "ERROR: Too many arguments\n", 27);
+			ft_putstr("ERROR: Too many arguments\n");
 		exit(EXIT_FAILURE);
 	}
 }

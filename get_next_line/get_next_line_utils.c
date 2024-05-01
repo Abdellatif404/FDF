@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bouz <ael-bouz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 21:18:55 by ael-bouz          #+#    #+#             */
-/*   Updated: 2024/04/11 11:28:33 by ael-bouz         ###   ########.fr       */
+/*   Updated: 2024/04/26 10:51:49 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ size_t	ft_strlen(char *s)
 char	*ft_strdup(char *s1)
 {
 	char	*dup;
-	size_t	len;
+	ssize_t	len;
 
 	if (!s1)
 		return (NULL);
